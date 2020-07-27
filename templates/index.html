@@ -1,0 +1,90 @@
+<!doctype html>
+    <head>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/5ed507ef8aa53d8ecfea96d96bc7214cd2476fd2/FileSaver.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+        <script type="text/javascript">
+
+            $(function(){
+               $("#save").click(function() { 
+                    html2canvas($("#asc"), {
+                        onrendered: function(canvas) {
+                            canvas.toBlob(function(blob) {
+                                saveAs(blob, 'your_ascii.png');
+                            });
+                        }
+                    });
+                });
+            });
+            
+            </script>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
+        <!-- Bootstrap CSS -->
+        
+        <!-- Project Title! -->
+        <title>Asciify</title>    
+    </head>
+    
+    <body style="background-color:dimgrey; text-align: center; font-family:Arial, Helvetica, sans-serif; font-size: large; font-weight: bold;">
+        
+        <div>
+            <div>
+                 <!-- Proejct Title -->
+                 
+                 <img src="../static/images/logo.png" alt="" style="text-align: center; width: 30%;">
+                 <br>
+                <!-- Github link and Ainize link -->
+                <A>Git Hub repository : </A> <A href=""></A>
+                <br >
+                <A>Testing API : </A> <A href=""> on Ainize </A>
+                <hr class="solid" color="black">
+                
+                
+            
+                    
+                    <div >
+                        <h2>Upload </h2>
+                        <form action="" method="post" enctype="multipart/form-data" >
+                            <p>Import Image:<br><input type=file name=file style="width: 10%;"> </p>
+                               <br>
+                               <input class="btn btn-primary btn-lg" style="margin-left: auto;" type=submit value=Asciify!>
+                            
+                          </form>
+                        <!-- <label for="label1">label1 : </label>
+                        <input type = 'file' id = 'input1' style="margin-right: 10px; margin-bottom: 10px;">
+                        <label for="label2">label2: </label>
+                        <input type = 'file' id = 'input2' style="margin-right: 10px; margin-bottom: 10px;">
+                        <button id = "submit" type='submit' class="btn btn-primary btn-lg" style="margin-left: auto;"> submit </button> -->
+                    
+                    
+                    </div>
+                    {%if result %}
+                    <button id="save">Download as image</button>
+                    {% endif %}
+                    <div >
+                    <div id="asc" style=" border-radius: 5px 5px 5px 5px;font-size: 0.5vw; width: 50%; text-align: center; background-color: darkslategray; width: fit-content;  padding-left: 20px; padding-right: 20px; margin: 0 auto;">
+                    <p><!-- <p style="font-size: xx-small; font-family: Ubuntu; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px;"> -->
+                    {% if result %}
+                    {% for i in result %}
+                    {% if i == '\n' %}
+                    <br>
+                    {% else %}
+                    <div style="width:6px; display: inline-flex;">{{ i }}</div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    </p>
+                    
+                    </div>
+                </div>
+                
+                
+            
+            </div>
+        </div>
+    </body>
+
+
