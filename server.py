@@ -19,7 +19,7 @@ ASCII_CHARS = ASCII_CHARS[::-1]
 
 # for checklist
 requests_queue = Queue()
-BATCH_SIZE = 10
+BATCH_SIZE = 1
 CHECK_INTERVAL = 0.1
 
 
@@ -142,7 +142,7 @@ def asciify():
             return redirect(request.url)
 
         if requests_queue.qsize() >= BATCH_SIZE:
-            return render_template('index.html', result = 'TooMany requests try agin'), 429
+            return render_template('index.html', result = 'TooMany requests try again'), 429
 
         req = {
             'input': [file]
