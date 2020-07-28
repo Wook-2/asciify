@@ -17,6 +17,13 @@ app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 8
 ASCII_CHARS = ['.',',',':',';','+','*','?','%','S','#','@']
 ASCII_CHARS = ASCII_CHARS[::-1]
 
+# for checklist
+requests_queue = Queue()
+BATCH_SIZE = 10
+CHECK_INTERVAL = 0.1
+
+
+
 '''
 method resize():
     - takes as parameters the image, and the final width
@@ -89,6 +96,38 @@ def runner(path):
     f.write(image)
     f.close()
 
+##########
+
+def handle_requests_by_batch():
+    while True:
+        requests_batch = []
+        while not (len(requests_batch) >= BATCH_SIZE):
+            try:
+                requests_batch.append(requests_queue.get(timeout=CHECK_INTERVAL))
+            except Empty:
+                continue
+            batch_outputs = []
+            for request in requests_batch:
+                batch_outputs.append(run(request['input'][0]))
+
+            for request, output in zip(requests_batch, batch_outputs):
+                request['output'] = output
+                
+threading.Thread(target=handle_requests_by_batch).start()
+
+
+def run(file):
+    
+    image = PIL.Image.open(file).convert("RGB")
+        
+    asc_img = do(image)
+    
+
+    return [asc_img]
+
+
+
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def asciify():
@@ -101,16 +140,33 @@ def asciify():
         if file.filename == '':
             print('no file name')
             return redirect(request.url)
-        
-        image = PIL.Image.open(file).convert("RGB")
-        
-        asc_img = do(image)
-        # print(asc_img)
 
-        return render_template('index.html', result=asc_img)
+        if requests_queue.qsize() >= BATCH_SIZE:
+            return render_template('index.html', result = 'TooMany requests try agin'), 429
+
+        req = {
+            'input': [file]
+        }
+        requests_queue.put(req)
+
+        while 'output' not in req:
+            time.sleep(CHECK_INTERVAL)
+        [res] = req['output']
+
+        return render_template('index.html', result=res)
     
     return render_template('index.html')
-        
+
+### checklist 
+@app.route('/healthz', methods=['GET'])
+def checkHealth():
+	return "Pong",200
+
+
+@app.errorhandler(413)
+def request_entity_too_large(error):
+    return {'error': 'File Too Large'}, 413
+
 if __name__ == '__main__':
 
     app.run(debug=True, port=8080, host='0.0.0.0')   

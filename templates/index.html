@@ -18,6 +18,25 @@
             });
             
             </script>
+        <script>
+            function font_color(){
+                f_color = document.getElementById("fc").value;
+                
+                // pre_font = document.getElementById("pre_font");
+                // pre_font.style.color = String(f_color);
+                result_font = document.getElementById("result_font");
+                result_font.style.color = String(f_color);
+
+                
+            }
+            function back_color(){
+                b_color = document.getElementById("bc").value;
+                // pre_div = document.getElementById("pre-div");
+                // pre_div.style.backgroundColor = String(b_color);
+                result_div = document.getElementById("asc");
+                result_div.style.backgroundColor = String(b_color);
+            }
+        </script>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,21 +56,43 @@
                  <img src="../static/images/logo.png" alt="" style="text-align: center; width: 30%;">
                  <br>
                 <!-- Github link and Ainize link -->
-                <A>Git Hub repository : </A> <A href=""></A>
+                <A>Git Hub repository : </A> <A href="https://github.com/Wook-2/asciify">https://github.com/Wook-2/asciify</A>
                 <br >
-                <A>Testing API : </A> <A href=""> on Ainize </A>
                 <hr class="solid" color="black">
                 
                 
             
                     
                     <div >
-                        <h2>Upload </h2>
                         <form action="" method="post" enctype="multipart/form-data" >
                             <p>Import Image:<br><input type=file name=file style="width: 10%;"> </p>
-                               <br>
-                               <input class="btn btn-primary btn-lg" style="margin-left: auto;" type=submit value=Asciify!>
+                                <!-- <div id="pre-div" style="border-radius: 5px 5px 5px 5px;background-color: black; width:15%;margin: 0 auto; text-align: center; padding-top: 1%; padding-bottom: 1%;" >
+                                    <p style="color: white;" id="pre_font">font</p>
+                                </div> -->
+                                <input class="btn btn-primary btn-lg" style=" margin:0 auto; width: 8%; height: 6%; font-size: large;" type=submit value=Asciify!>
                             
+                               <br><br>
+                               {% if result %}
+                               Font Color:
+                               <select name="font-color" id="fc" onchange="font_color()">
+                                <option value="black">Black</option>
+                                <option value="white">White</option>
+                                <option value="dimgray">Gray</option>
+                                <option value="yellow">Yellow</option>
+                                <option value="red">Red</option>
+                                <option value="ivory">Ivory</option>
+                                </select>
+                                Background Color:
+                                <select name="background-color" id="bc" onchange="back_color()">
+                                <option value="dimgray">Gray</option>
+                                <option value="black">Black</option>
+                                <option value="white">White</option>
+                                <option value="yellow">Yellow</option>
+                                <option value="red">Red</option>
+                                <option value="ivory">Ivory</option>
+                                </select>
+                                {% endif %}
+                               
                           </form>
                         <!-- <label for="label1">label1 : </label>
                         <input type = 'file' id = 'input1' style="margin-right: 10px; margin-bottom: 10px;">
@@ -64,8 +105,8 @@
                     {%if result %}
                     <button id="save">Download as image</button>
                     {% endif %}
-                    <div >
-                    <div id="asc" style=" border-radius: 5px 5px 5px 5px;font-size: 0.5vw; width: 50%; text-align: center; background-color: darkslategray; width: fit-content;  padding-left: 20px; padding-right: 20px; margin: 0 auto;">
+                    <div id="result_font">
+                    <div id="asc" style=" border-radius: 5px 5px 5px 5px;font-size: 0.5vw; width: 50%; text-align: center; width: fit-content; padding-top: 20px; padding-bottom: 20px; padding-left: 20px; padding-right: 20px; margin: 0 auto;background-color: dimgray;">
                     <p><!-- <p style="font-size: xx-small; font-family: Ubuntu; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px;"> -->
                     {% if result %}
                     {% for i in result %}
