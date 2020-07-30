@@ -137,6 +137,10 @@ def asciify():
             return redirect(request.url)
         file = request.files['file']
 
+        try:
+            PIL.Image.open(file).convert("RGB")
+        except Exception: 
+            return render_template('index.html', result = 'Import image please'), 400
         if file.filename == '':
             print('no file name')
             return redirect(request.url)
