@@ -1,6 +1,6 @@
 ## Web Demo
 - ### Ainize
-[![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=https://github.com/Wook-2/cnn-explainer)
+[![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.ai/Wook-2/asciify?branch=master)
 
 ![](https://github.com/RameshAditya/asciify/blob/master/github-resources/logo.JPG)
 # Convert Images into ASCII Art with the power of Python
