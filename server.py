@@ -2,17 +2,14 @@ import PIL
 from PIL import Image
 import sys
 import urllib.request
-from flask import Flask, request, send_file, flash, redirect, render_template, url_for, jsonify
-import numpy as np
+from flask import Flask, request, send_file, redirect, render_template
 import time
 import threading
-import io
 from queue import Queue, Empty
+
 
 app = Flask(__name__, template_folder='templates')
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 8
-
-
 
 ASCII_CHARS = ['.',',',':',';','+','*','?','%','S','#','@']
 ASCII_CHARS = ASCII_CHARS[::-1]
@@ -21,7 +18,6 @@ ASCII_CHARS = ASCII_CHARS[::-1]
 requests_queue = Queue()
 BATCH_SIZE = 1
 CHECK_INTERVAL = 0.1
-
 
 
 '''
@@ -36,6 +32,8 @@ def resize(image, new_width=100):
     new_dim = (new_width, new_height)
     new_image = image.resize(new_dim)
     return new_image
+
+
 '''
 method grayscalify():
     - takes an image as a parameter
@@ -43,6 +41,7 @@ method grayscalify():
 '''
 def grayscalify(image):
     return image.convert('L')
+
 
 '''
 method modify():
@@ -52,6 +51,7 @@ def modify(image, buckets=25):
     initial_pixels = list(image.getdata())
     new_pixels = [ASCII_CHARS[pixel_value//buckets] for pixel_value in initial_pixels]
     return ''.join(new_pixels)
+
 
 '''
 method do():
@@ -69,6 +69,7 @@ def do(image, new_width=100):
 
     return '\n'.join(new_image)
 
+
 '''
 method runner():
     - takes as parameter the image path and runs the above code
@@ -85,18 +86,10 @@ def runner(path):
         return
     image = do(image)
 
-    # To print on console
-    print(image)
-
-    # Else, to write into a file
-    # Note: This text file will be created by default under
-    #       the same directory as this python file,
-    #       NOT in the directory from where the image is pulled.
     f = open('img.txt','w')
     f.write(image)
     f.close()
 
-##########
 
 def handle_requests_by_batch():
     while True:
@@ -112,16 +105,14 @@ def handle_requests_by_batch():
 
             for request, output in zip(requests_batch, batch_outputs):
                 request['output'] = output
-                
+
+
 threading.Thread(target=handle_requests_by_batch).start()
 
 
 def run(file):
-    
     image = PIL.Image.open(file).convert("RGB")
-        
     asc_img = do(image)
-    
 
     return [asc_img]
 
@@ -146,7 +137,7 @@ def asciify():
             return redirect(request.url)
 
         if requests_queue.qsize() >= BATCH_SIZE:
-            return render_template('index.html', result = 'TooMany requests try again'), 429
+            return render_template('index.html', result = 'TooMany requests. please try again'), 429
 
         req = {
             'input': [file]
@@ -161,6 +152,7 @@ def asciify():
     
     return render_template('index.html')
 
+
 ### checklist 
 @app.route('/healthz', methods=['GET'])
 def checkHealth():
@@ -169,7 +161,8 @@ def checkHealth():
 
 @app.errorhandler(413)
 def request_entity_too_large(error):
-    return {'error': 'File Too Large'}, 413
+    return {'error': 'File size is Too Large'}, 413
+
 
 if __name__ == '__main__':
 
