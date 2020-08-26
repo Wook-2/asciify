@@ -21,18 +21,11 @@
         <script>
             function font_color(){
                 f_color = document.getElementById("fc").value;
-                
-                // pre_font = document.getElementById("pre_font");
-                // pre_font.style.color = String(f_color);
                 result_font = document.getElementById("result_font");
                 result_font.style.color = String(f_color);
-
-                
             }
             function back_color(){
                 b_color = document.getElementById("bc").value;
-                // pre_div = document.getElementById("pre-div");
-                // pre_div.style.backgroundColor = String(b_color);
                 result_div = document.getElementById("asc");
                 result_div.style.backgroundColor = String(b_color);
             }
@@ -66,9 +59,6 @@
                     <div >
                         <form action="" method="post" enctype="multipart/form-data" >
                             <p>Import Image:<br><input type=file name=file style="width: 10%;"> </p>
-                                <!-- <div id="pre-div" style="border-radius: 5px 5px 5px 5px;background-color: black; width:15%;margin: 0 auto; text-align: center; padding-top: 1%; padding-bottom: 1%;" >
-                                    <p style="color: white;" id="pre_font">font</p>
-                                </div> -->
                                 <input class="btn btn-primary btn-lg" style=" margin:0 auto; width: 8%; height: 6%; font-size: large;" type=submit value=Asciify!>
                             
                                <br><br>
@@ -94,12 +84,6 @@
                                 {% endif %}
                                
                           </form>
-                        <!-- <label for="label1">label1 : </label>
-                        <input type = 'file' id = 'input1' style="margin-right: 10px; margin-bottom: 10px;">
-                        <label for="label2">label2: </label>
-                        <input type = 'file' id = 'input2' style="margin-right: 10px; margin-bottom: 10px;">
-                        <button id = "submit" type='submit' class="btn btn-primary btn-lg" style="margin-left: auto;"> submit </button> -->
-                    
                     
                     </div>
                     {%if result %}
@@ -107,7 +91,7 @@
                     {% endif %}
                     <div id="result_font">
                     <div id="asc" style=" border-radius: 5px 5px 5px 5px;font-size: 0.5vw; width: 50%; text-align: center; width: fit-content; padding-top: 20px; padding-bottom: 20px; padding-left: 20px; padding-right: 20px; margin: 0 auto;background-color: ivory;">
-                    <p><!-- <p style="font-size: xx-small; font-family: Ubuntu; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px;"> -->
+                    <p>
                     {% if result %}
                     {% for i in result %}
                     {% if i == '\n' %}
@@ -118,14 +102,11 @@
                     {% endfor %}
                     {% endif %}
                     </p>
-                    
                     </div>
                 </div>
-                
-                
-            
             </div>
         </div>
+
         <div id="badge" OnClick="location.href='https://join.slack.com/t/ainetwork-dev/shared_invite/zt-c89mb8z9-IqaCsNmsNLXKNylKXrJTTg'"
         style="position: fixed; bottom: 40px; right: 40px; filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25)); cursor:pointer;">
      <svg width="254" height="80" viewBox="0 0 254 80" fill="none" xmlns="http://www.w3.org/2000/svg">
